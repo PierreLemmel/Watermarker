@@ -26,7 +26,7 @@ namespace Watermarker.GUI
 
         private void ValidateNumericTextBoxes(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !Regex.IsMatch(e.Text, "^[0-9]{1,3}$");
+            e.Handled = !float.TryParse(e.Text, out _);
         }
     }
 }

@@ -1,9 +1,0 @@
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\bin\Debug\netstandard2.0\Watermarker.deps.json
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\bin\Debug\netstandard2.0\Watermarker.dll
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\bin\Debug\netstandard2.0\Watermarker.pdb
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.csprojAssemblyReference.cache
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.csproj.CoreCompileInputs.cache
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.AssemblyInfoInputs.cache
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.AssemblyInfo.cs
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.dll
-C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker\obj\Debug\netstandard2.0\Watermarker.pdb

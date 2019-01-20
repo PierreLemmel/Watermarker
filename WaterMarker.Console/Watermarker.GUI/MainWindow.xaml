@@ -4,9 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:Watermarker.GUI"
         xmlns:vm="clr-namespace:Watermarker.GUI.ViewModels"
-        xmlns:wm="clr-namespace:Watermarker.Config;assembly=Watermarker"
+        xmlns:wm="clr-namespace:Watermarker.Config"
         mc:Ignorable="d"
         Title="Watermarker"  Width="430"
         SizeToContent="Height" ResizeMode="NoResize"
@@ -45,7 +44,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -53,21 +54,27 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0">Supprimer l'original :</Label>
-        <CheckBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding EraseFile}"/>
-        
-        <Label Grid.Row="1" Grid.Column="0">Position :</Label>
-        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource PositionSource}}" SelectedItem="{Binding Anchor}"/>
+        <CheckBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding EraseFiles}"/>
 
-        <Label Grid.Row="2" Grid.Column="0">Marge horizontale (en pixels) :</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding HMargin}"/>
-        
-        <Label Grid.Row="3" Grid.Column="0">Marge verticale (en pixels) :</Label>
+        <Label Grid.Row="1" Grid.Column="0">Inclure les sous-dossiers :</Label>
+        <CheckBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IncludeSubFolders}"/>
+
+        <Label Grid.Row="2" Grid.Column="0">Position :</Label>
+        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource PositionSource}}" SelectedItem="{Binding Anchor}"/>
+
+        <Label Grid.Row="3" Grid.Column="0">Marge horizontale (en pixels) :</Label>
         <TextBox Grid.Row="3" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding HMargin}"/>
         
-        <Label Grid.Row="4" Grid.Column="0">Texte :</Label>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Text}"/>
+        <Label Grid.Row="4" Grid.Column="0">Marge verticale (en pixels) :</Label>
+        <TextBox Grid.Row="4" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding VMargin}"/>
 
-        <Button Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+        <Label Grid.Row="5" Grid.Column="0">Taille du texte :</Label>
+        <TextBox Grid.Row="5" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding TextSize}"/>
+
+        <Label Grid.Row="6" Grid.Column="0">Texte :</Label>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Text}"/>
+
+        <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
                 Content="Lancer le traitement" Command="{Binding DrawWatermarks}"/>
 
     </Grid>

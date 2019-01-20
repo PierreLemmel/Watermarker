@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using Watermarker.Config;
 using Watermarker.GUI.Commands;
@@ -22,15 +23,28 @@ namespace Watermarker.GUI.ViewModels
             Model = model ?? throw new ArgumentNullException(nameof(model));
         }
 
-        public bool EraseFile
+        public bool EraseFiles
         {
-            get { return Model.EraseFile; }
+            get { return Model.EraseFiles; }
             set
             {
-                if (value != EraseFile)
+                if (value != EraseFiles)
                 {
-                    Model.EraseFile = value;
-                    RaisesPropertyChanged(nameof(EraseFile));
+                    Model.EraseFiles = value;
+                    RaisesPropertyChanged(nameof(EraseFiles));
+                }
+            }
+        }
+
+        public bool IncludeSubFolders
+        {
+            get { return Model.IncludeSubFolders; }
+            set
+            {
+                if (value != IncludeSubFolders)
+                {
+                    Model.IncludeSubFolders = value;
+                    RaisesPropertyChanged(nameof(IncludeSubFolders));
                 }
             }
         }
@@ -74,6 +88,19 @@ namespace Watermarker.GUI.ViewModels
             }
         }
 
+        public string FontName
+        {
+            get { return Model.FontName; }
+            set
+            {
+                if (value != FontName)
+                {
+                    Model.FontName = value;
+                    RaisesPropertyChanged(nameof(FontName));
+                }
+            }
+        }
+
         public Color Color
         {
             get { return Model.Color; }
@@ -87,7 +114,7 @@ namespace Watermarker.GUI.ViewModels
             }
         }
 
-        public int HMargin
+        public float HMargin
         {
             get { return Model.HMargin; }
             set
@@ -100,7 +127,7 @@ namespace Watermarker.GUI.ViewModels
             }
         }
 
-        public int VMargin
+        public float VMargin
         {
             get { return Model.VMargin; }
             set
@@ -109,6 +136,19 @@ namespace Watermarker.GUI.ViewModels
                 {
                     Model.VMargin = value;
                     RaisesPropertyChanged(nameof(VMargin));
+                }
+            }
+        }
+
+        public float TextSize
+        {
+            get { return Model.TextSize; }
+            set
+            {
+                if (value != TextSize)
+                {
+                    Model.TextSize = value;
+                    RaisesPropertyChanged(nameof(TextSize));
                 }
             }
         }
@@ -124,10 +164,17 @@ namespace Watermarker.GUI.ViewModels
                 {
                     if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
                     {
-                        string directory = dialog.FileName;
-                        IEnumerable<string> files = Directory.GetFiles(directory, "*.png, *.jpg, *.jpeg");
+                        string dirPath = dialog.FileName + "\\";
 
-                        foreach (string file in files) Console.WriteLine(file);
+                        SearchOption searchOption = IncludeSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                        IReadOnlyCollection<string> files = Directory
+                            .EnumerateFiles(dirPath, "*", searchOption)
+                            .Where(file => file.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase)
+                                        || file.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
+                                        || file.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase))
+                            .ToList();
+
+                        Drawer.Draw(files, Model);
                     }
                 }
             });

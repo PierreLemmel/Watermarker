@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CB8117FA-51F3-4537-BA0E-7D7182B30FF4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Watermarker.GUI</RootNamespace>
+    <RootNamespace>Watermarker</RootNamespace>
     <AssemblyName>Watermarker.GUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,6 +63,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Config\Anchor.cs" />
+    <Compile Include="Config\WatermarkSettings.cs" />
+    <Compile Include="Jobs\WatermarkDrawer.cs" />
     <Compile Include="ViewModels\WatermarkSettingsViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,12 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Watermarker\Watermarker.csproj">
-      <Project>{22174DC5-E23D-4BD3-B64F-FC3905CFDC1E}</Project>
-      <Name>Watermarker</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
