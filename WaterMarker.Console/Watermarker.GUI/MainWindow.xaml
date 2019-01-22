@@ -6,18 +6,31 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:vm="clr-namespace:Watermarker.GUI.ViewModels"
         xmlns:wm="clr-namespace:Watermarker.Config"
+        xmlns:cv="clr-namespace:Watermarker.Converters"
+        xmlns:ds="clr-namespace:Watermarker.DataSources"
         mc:Ignorable="d"
         Title="Watermarker"  Width="430"
         SizeToContent="Height" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance vm:WatermarkSettingsViewModel, IsDesignTimeCreatable=False}">
     <Grid Margin="6">
         <Grid.Resources>
+            <cv:AnchorDescriptionConverter x:Key="anchorDescriptionConverter"/>
+            <cv:FontTypeDescriptionConverter x:Key="fontTypeDescriptionConverter"/>
+
             <ObjectDataProvider x:Key="PositionSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="wm:Anchor"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="FontTypeSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="wm:FontType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
             
+            <ObjectDataProvider x:Key="FontSource" MethodName="GetFontNames" ObjectType="{x:Type ds:FontDataSource}"/>
+
             <Thickness x:Key="InnerMargin">3</Thickness>
             
             <Style TargetType="Label">
@@ -47,6 +60,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -54,13 +69,19 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0">Supprimer l'original :</Label>
-        <CheckBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding EraseFiles}"/>
+        <CheckBox Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding EraseFiles}" IsEnabled="False"/>
 
         <Label Grid.Row="1" Grid.Column="0">Inclure les sous-dossiers :</Label>
         <CheckBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding IncludeSubFolders}"/>
 
         <Label Grid.Row="2" Grid.Column="0">Position :</Label>
-        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource PositionSource}}" SelectedItem="{Binding Anchor}"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource PositionSource}}" SelectedItem="{Binding Anchor}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource anchorDescriptionConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <Label Grid.Row="3" Grid.Column="0">Marge horizontale (en pixels) :</Label>
         <TextBox Grid.Row="3" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding HMargin}"/>
@@ -68,13 +89,31 @@
         <Label Grid.Row="4" Grid.Column="0">Marge verticale (en pixels) :</Label>
         <TextBox Grid.Row="4" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding VMargin}"/>
 
-        <Label Grid.Row="5" Grid.Column="0">Taille du texte :</Label>
-        <TextBox Grid.Row="5" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding TextSize}"/>
+        <Label Grid.Row="5" Grid.Column="0">Police du texte :</Label>
+        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Source={StaticResource FontSource}}" SelectedItem="{Binding FontName}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-        <Label Grid.Row="6" Grid.Column="0">Texte :</Label>
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Text}"/>
+        <Label Grid.Row="6" Grid.Column="0">Type de police :</Label>
+        <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Source={StaticResource FontTypeSource}}" SelectedItem="{Binding FontType}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource fontTypeDescriptionConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-        <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+        <Label Grid.Row="7" Grid.Column="0">Taille du texte :</Label>
+        <TextBox Grid.Row="7" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding TextSize}"/>
+
+        <Label Grid.Row="8" Grid.Column="0">Texte :</Label>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Text}"/>
+
+        <Button Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
                 Content="Lancer le traitement" Command="{Binding DrawWatermarks}"/>
 
     </Grid>

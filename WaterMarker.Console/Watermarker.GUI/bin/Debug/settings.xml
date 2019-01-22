@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WatermarkSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EraseFiles>false</EraseFiles>
+  <IncludeSubFolders>false</IncludeSubFolders>
+  <TransformedFileSuffix>_wm</TransformedFileSuffix>
+  <Anchor>BottomRight</Anchor>
+  <HMargin>10</HMargin>
+  <VMargin>10</VMargin>
+  <TextSize>140</TextSize>
+  <Text>©Anais AY</Text>
+  <Color />
+  <FontName>Arial</FontName>
+  <FontType>Italic</FontType>
+</WatermarkSettings>

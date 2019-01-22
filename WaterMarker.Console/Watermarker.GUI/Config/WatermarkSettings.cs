@@ -14,5 +14,6 @@ namespace Watermarker.Config
         public string Text { get; set; } = "©Author";
         public Color Color { get; set; } = Color.White;
         public string FontName { get; set; } = "Arial";
+        public FontType FontType { get; set; } = FontType.Regular;
     }
 }

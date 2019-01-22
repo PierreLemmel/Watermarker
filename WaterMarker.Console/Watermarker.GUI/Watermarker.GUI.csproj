@@ -64,7 +64,15 @@
     </ApplicationDefinition>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Config\Anchor.cs" />
+    <Compile Include="Config\AnchorExtensions.cs" />
+    <Compile Include="Config\FontType.cs" />
     <Compile Include="Config\WatermarkSettings.cs" />
+    <Compile Include="Converters\AnchorDescriptionConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\FontTypeDescriptionConverter.cs" />
+    <Compile Include="DataSources\FontDataSource.cs" />
+    <Compile Include="Jobs\EXIFOrientation.cs" />
+    <Compile Include="Jobs\SettingsSerializer.cs" />
     <Compile Include="Jobs\WatermarkDrawer.cs" />
     <Compile Include="ViewModels\WatermarkSettingsViewModel.cs" />
     <Page Include="MainWindow.xaml">

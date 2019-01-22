@@ -18,3 +18,4 @@ C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker.GUI\bin\Debug\
 C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker.GUI\bin\Debug\Microsoft.WindowsAPICodePack.xml
 C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker.GUI\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
 C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker.GUI\obj\Debug\Watermarker.Properties.Resources.resources
+C:\Repositories\Perso\Watermarker\WaterMarker.Console\Watermarker.GUI\obj\Debug\GeneratedInternalTypeHelper.g.cs

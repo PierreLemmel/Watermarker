@@ -1,6 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Watermarker.Config;
 using Watermarker.GUI.ViewModels;
@@ -17,11 +16,14 @@ namespace Watermarker.GUI
         {
             InitializeComponent();
 
-            WatermarkSettings wmSettings = new WatermarkSettings();
+            SettingsSerializer settingsSerializer = new SettingsSerializer();
+            WatermarkSettings wmSettings = settingsSerializer.RestoreSettings() ?? new WatermarkSettings();
             WatermarkDrawer drawer = new WatermarkDrawer();
 
             WatermarkSettingsViewModel viewModel = new WatermarkSettingsViewModel(drawer, wmSettings);
             DataContext = viewModel;
+
+            Deactivated += (sender, ea) => settingsSerializer.SaveSettings(wmSettings);
         }
 
         private void ValidateNumericTextBoxes(object sender, TextCompositionEventArgs e)

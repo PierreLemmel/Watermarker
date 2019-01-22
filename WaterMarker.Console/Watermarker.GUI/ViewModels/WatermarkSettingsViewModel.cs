@@ -101,6 +101,19 @@ namespace Watermarker.GUI.ViewModels
             }
         }
 
+        public FontType FontType
+        {
+            get { return Model.FontType; }
+            set
+            {
+                if (value != FontType)
+                {
+                    Model.FontType = value;
+                    RaisesPropertyChanged(nameof(FontType));
+                }
+            }
+        }
+
         public Color Color
         {
             get { return Model.Color; }
