@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.3.3, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
@@ -66,14 +70,18 @@
     <Compile Include="Config\Anchor.cs" />
     <Compile Include="Config\AnchorExtensions.cs" />
     <Compile Include="Config\FontType.cs" />
+    <Compile Include="Config\TextOrientation.cs" />
+    <Compile Include="Config\TextOrientationExtensions.cs" />
     <Compile Include="Config\WatermarkSettings.cs" />
     <Compile Include="Converters\AnchorDescriptionConverter.cs" />
     <Compile Include="Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Converters\FontTypeDescriptionConverter.cs" />
+    <Compile Include="Converters\TextOrientationDescriptionConverter.cs" />
     <Compile Include="DataSources\FontDataSource.cs" />
     <Compile Include="Jobs\EXIFOrientation.cs" />
-    <Compile Include="Jobs\SettingsSerializer.cs" />
+    <Compile Include="Serialization\SettingsSerializer.cs" />
     <Compile Include="Jobs\WatermarkDrawer.cs" />
+    <Compile Include="Serialization\XmlColor.cs" />
     <Compile Include="ViewModels\WatermarkSettingsViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +122,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

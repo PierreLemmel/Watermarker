@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace Watermarker.Converters
 {
-    public abstract class EnumDescriptionConverter<TEnum> : IValueConverter
+    public abstract class EnumDescriptionConverter<TEnum> : IValueConverter where TEnum : Enum
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => typeof(TEnum)
                         .GetField(value.ToString())

@@ -11,11 +11,13 @@
         mc:Ignorable="d"
         Title="Watermarker"  Width="430"
         SizeToContent="Height" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance vm:WatermarkSettingsViewModel, IsDesignTimeCreatable=False}">
+        d:DataContext="{d:DesignInstance vm:WatermarkSettingsViewModel, IsDesignTimeCreatable=False}"
+        Icon="Resources/icon.ico">
     <Grid Margin="6">
         <Grid.Resources>
             <cv:AnchorDescriptionConverter x:Key="anchorDescriptionConverter"/>
             <cv:FontTypeDescriptionConverter x:Key="fontTypeDescriptionConverter"/>
+            <cv:TextOrientationDescriptionConverter x:Key="textOrientationDescriptionConverter"/>
 
             <ObjectDataProvider x:Key="PositionSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
@@ -28,7 +30,13 @@
                     <x:Type TypeName="wm:FontType"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-            
+
+            <ObjectDataProvider x:Key="TextOrientationSource" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="wm:TextOrientation"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
             <ObjectDataProvider x:Key="FontSource" MethodName="GetFontNames" ObjectType="{x:Type ds:FontDataSource}"/>
 
             <Thickness x:Key="InnerMargin">3</Thickness>
@@ -52,6 +60,7 @@
         </Grid.Resources>
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -93,7 +102,7 @@
         <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Source={StaticResource FontSource}}" SelectedItem="{Binding FontName}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                    <TextBlock Text="{Binding}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
@@ -107,13 +116,22 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Label Grid.Row="7" Grid.Column="0">Taille du texte :</Label>
-        <TextBox Grid.Row="7" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding TextSize}"/>
+        <Label Grid.Row="7" Grid.Column="0">Orientation du texte :</Label>
+        <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Source={StaticResource TextOrientationSource}}" SelectedItem="{Binding TextOrientation}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource textOrientationDescriptionConverter}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <Label Grid.Row="8" Grid.Column="0">Taille du texte :</Label>
+        <TextBox Grid.Row="8" Grid.Column="1" PreviewTextInput="ValidateNumericTextBoxes" Text="{Binding TextSize}"/>
 
-        <Label Grid.Row="8" Grid.Column="0">Texte :</Label>
-        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Text}"/>
+        <Label Grid.Row="9" Grid.Column="0">Texte :</Label>
+        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Text}"/>
 
-        <Button Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+        <Button Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
                 Content="Lancer le traitement" Command="{Binding DrawWatermarks}"/>
 
     </Grid>

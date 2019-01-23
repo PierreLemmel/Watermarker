@@ -166,6 +166,19 @@ namespace Watermarker.GUI.ViewModels
             }
         }
 
+        public TextOrientation TextOrientation
+        {
+            get { return Model.TextOrientation; }
+            set
+            {
+                if (value != TextOrientation)
+                {
+                    Model.TextOrientation = value;
+                    RaisesPropertyChanged(nameof(TextOrientation));
+                }
+            }
+        }
+
         public ICommand DrawWatermarks => new Command<WatermarkSettingsViewModel>(
             () =>
             {

@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using Watermarker.Serialization;
+
+using SColor = System.Drawing.Color;
 
 namespace Watermarker.Config
 {
@@ -12,7 +14,8 @@ namespace Watermarker.Config
         public float VMargin { get; set; } = 10;
         public float TextSize { get; set; } = 14;
         public string Text { get; set; } = "©Author";
-        public Color Color { get; set; } = Color.White;
+        public TextOrientation TextOrientation { get; set; } = TextOrientation.Horizontal;
+        public XmlColor Color { get; set; } = SColor.White;
         public string FontName { get; set; } = "Arial";
         public FontType FontType { get; set; } = FontType.Regular;
     }

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Watermarker.Config;
 using Watermarker.GUI.ViewModels;
 using Watermarker.Jobs;
+using Watermarker.Serialization;
 
 namespace Watermarker.GUI
 {
@@ -23,7 +24,7 @@ namespace Watermarker.GUI
             WatermarkSettingsViewModel viewModel = new WatermarkSettingsViewModel(drawer, wmSettings);
             DataContext = viewModel;
 
-            Deactivated += (sender, ea) => settingsSerializer.SaveSettings(wmSettings);
+            Closing += (sender, ea) => settingsSerializer.SaveSettings(wmSettings);
         }
 
         private void ValidateNumericTextBoxes(object sender, TextCompositionEventArgs e)

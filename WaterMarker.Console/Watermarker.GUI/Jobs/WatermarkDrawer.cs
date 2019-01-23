@@ -42,14 +42,17 @@ namespace Watermarker.Jobs
                 Size imgSize = img.Size;
                 SizeF textSize = g.MeasureString(text, font);
                 Anchor anchor = settings.Anchor;
-                float hMargin = settings.HMargin;
-                float vMargin = settings.VMargin;
+                SizeF marginSize = new SizeF(settings.HMargin, settings.VMargin);
+                TextOrientation textOrientation = settings.TextOrientation;
 
-                float x = anchor.IsLeft() ? hMargin : imgSize.Width - (textSize.Width + hMargin);
-                float y = anchor.IsTop() ? vMargin : imgSize.Height - (textSize.Height + vMargin);
-                PointF position = new PointF(x, y);
+                float textRotation = GetTextRotation(textOrientation);
 
-                g.DrawString(text, font, brush, position);
+                PointF textPosition = GetTextPosition(textOrientation, anchor, imgSize, textSize, marginSize);
+
+                g.TranslateTransform(textPosition.X, textPosition.Y);
+                g.RotateTransform(textRotation);
+
+                g.DrawString(text, font, brush, PointF.Empty);
             }
 
             if (settings.EraseFiles)
@@ -60,7 +63,86 @@ namespace Watermarker.Jobs
 
             img.Save(saveFileName);
             img.Dispose();
-        }    
+        }
+
+        private static float GetTextRotation(TextOrientation textOrientation)
+        {
+            switch (textOrientation)
+            {
+                case TextOrientation.Horizontal:
+                    return 0.0f;
+                case TextOrientation.VerticalAscending:
+                    return -90.0f;
+                case TextOrientation.VerticalDescending:
+                    return 90.0f;
+                default:
+                    throw new InvalidOperationException($"Unexpected text orientation: {textOrientation}");
+            }
+        }
+
+        private static PointF GetTextPosition(TextOrientation textOrientation, Anchor anchor, SizeF imgSize, SizeF textSize, SizeF marginSize)
+        {
+            PositionProvider positionProvider = PositionProviderMap[(textOrientation, anchor)];
+
+            PointF textPosition = positionProvider(imgSize, textSize, marginSize);
+            return textPosition;
+        }
+
+        private delegate PointF PositionProvider(SizeF imgSize, SizeF textSize, SizeF marginSize);
+        private static readonly IReadOnlyDictionary<(TextOrientation, Anchor), PositionProvider> PositionProviderMap
+            = new Dictionary<(TextOrientation, Anchor), PositionProvider>()
+            {
+                [(TextOrientation.Horizontal, Anchor.BottomRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - (textSize.Width + marginSize.Width),
+                    imgSize.Height - (textSize.Height + marginSize.Height)
+                ),
+                [(TextOrientation.Horizontal, Anchor.BottomLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width,
+                    imgSize.Height - (textSize.Height + marginSize.Height)
+                ),
+                [(TextOrientation.Horizontal, Anchor.TopRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - (textSize.Width + marginSize.Width),
+                    marginSize.Height
+                ),
+                [(TextOrientation.Horizontal, Anchor.TopLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width,
+                    marginSize.Height
+                ),
+
+                [(TextOrientation.VerticalAscending, Anchor.BottomRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - (textSize.Height + marginSize.Width),
+                    imgSize.Height - marginSize.Height
+                ),
+                [(TextOrientation.VerticalAscending, Anchor.BottomLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width,
+                    imgSize.Height - marginSize.Height
+                ),
+                [(TextOrientation.VerticalAscending, Anchor.TopRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - (textSize.Height + marginSize.Width),
+                    marginSize.Height + textSize.Width
+                ),
+                [(TextOrientation.VerticalAscending, Anchor.TopLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width,
+                    marginSize.Height + textSize.Width
+                ),
+
+                [(TextOrientation.VerticalDescending, Anchor.BottomRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - marginSize.Width,
+                    imgSize.Height - (textSize.Width + marginSize.Height)
+                ),
+                [(TextOrientation.VerticalDescending, Anchor.BottomLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width + textSize.Height,
+                    imgSize.Height - (textSize.Width + marginSize.Height)
+                ),
+                [(TextOrientation.VerticalDescending, Anchor.TopRight)] = (imgSize, textSize, marginSize) => new PointF(
+                    imgSize.Width - marginSize.Width,
+                    marginSize.Height
+                ),
+                [(TextOrientation.VerticalDescending, Anchor.TopLeft)] = (imgSize, textSize, marginSize) => new PointF(
+                    marginSize.Width + textSize.Height,
+                    marginSize.Height
+                ),
+            };
 
         private static EXIFOrientation GetEXIFOrientation(Image img)
         {
